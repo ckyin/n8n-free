@@ -51,5 +51,6 @@ jobs:
             "run_id": "${{ github.run_id }}",
             "status": "${{ job.status }}",
             "actor": "${{ github.actor }}",
-            "run_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            "run_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
           }'

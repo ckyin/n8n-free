@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  deploy:
     # Specify environment
     environment: HugginFace-free
     # The type of runner that the job will run on
@@ -38,3 +38,18 @@ jobs:
       #   run: |
       #     echo Add other actions to build,
       #     echo test, and deploy your project.
+      - name: Notify n8n Webhook
+        # 關鍵：確保前面步驟失敗時，此步驟仍會執行
+        if: always() 
+        run: |
+          curl -X POST https://robert-ck-n8n-free.hf.space/webhook-test/a4b83bbe-4624-43a7-8f93-3e792d939b26 \
+          -H 'Content-Type: application/json' \
+          -d '{
+            "event": "${{ github.event_name }}",
+            "repository": "${{ github.repository }}",
+            "workflow": "${{ github.workflow }}",
+            "run_id": "${{ github.run_id }}",
+            "status": "${{ job.status }}",
+            "actor": "${{ github.actor }}",
+            "run_url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }'

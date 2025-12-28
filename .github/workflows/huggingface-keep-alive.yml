@@ -42,7 +42,7 @@ jobs:
         # 關鍵：確保前面步驟失敗時，此步驟仍會執行
         if: always() 
         run: |
-          curl -X POST https://robert-ck-n8n-free.hf.space/webhook-test/a4b83bbe-4624-43a7-8f93-3e792d939b26 \
+          curl -X POST ${{ vars.N8N_WEBHOOK_URL }} \
           -H 'Content-Type: application/json' \
           -d '{
             "event": "${{ github.event_name }}",
